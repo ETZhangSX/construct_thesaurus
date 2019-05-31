@@ -1,0 +1,3 @@
+PyMySQL==0.9.3
+jieba==0.39
+setuptools==40.8.0
