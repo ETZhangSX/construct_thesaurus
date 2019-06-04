@@ -18,7 +18,7 @@ mysql -uroot -p < Dump20190531.sql
 ```bash
 pip install -r requirements.txt
 ```
-安装本项目并运行（目前仅分词）
+安装本项目并运行（目前仅分词、训练词向量模型）
 ```bash
 python setup.py install
 python main.py
