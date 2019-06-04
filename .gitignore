@@ -10,6 +10,9 @@ __pycache__/
 .idea
 .idea/
 
+# Model file
+models/word2vec_model.bin
+
 # Distribution / packaging
 .Python
 build/
