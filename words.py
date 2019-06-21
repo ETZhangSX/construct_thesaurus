@@ -6,8 +6,11 @@ filelist = os.listdir('./thesaurus/')
 # for item in filelist:
 #     if item[-1] == 't':
 #         print(item[7:-4])
+
+# 链接数据库
 db = pymysql.connect("localhost", "root", "19981129", "words_spider")
 
+# 读取
 cursor = db.cursor()
 for item in filelist:
     if item[-1] == 't':

@@ -1,8 +1,10 @@
 import jieba
 import pymysql
+import chardet
 from config.database import DATABASE
 from collections import Counter
 from gensim.models import word2vec
+import pickle
 
 db = pymysql.connect(
     DATABASE['host'],
@@ -24,11 +26,19 @@ def getContent():
     cursor.close()
     return results
 
+def getWords():
+    cursor = db.cursor()
+    cursor.execute('SELECT word FROM thesaurus')
+    results = cursor.fetchall()
+    db.commit()
+    cursor.close()
+    return results
 
 def cutContent(content):
     # words_all = list()
     # words = list()
     # 加载用户词
+    dictWord = getWords()
     jieba.load_userdict(dict_path)
 
     # 加载停止词
@@ -39,6 +49,9 @@ def cutContent(content):
 
     fp = open(words_data_path, 'w')
 
+    for row in dictWord:
+        for item in row:
+            fp.write(item + ' ')
     # 整合读取内容
     for row in content:
         article_words = list()
@@ -49,6 +62,7 @@ def cutContent(content):
             if len(word) > 2 and word not in stopwords:
                 article_words_clear.append(word)
         fp.write(' '.join(article_words_clear) + ' ')
+
 
     # for word in words_all:
     #     if len(word) > 2 and word not in stopwords:
@@ -75,7 +89,14 @@ def load_word2vec_model():
     '''
     print('加载模型文件...')
     return word2vec.Word2Vec.load(model_path)
+    # return keyedvectors.KeyedVectors.load_word2vec_format(model_path)
 
+def get_all_word_vec():
+    model = load_word2vec_model()
+    words = model.wv.index2word
+
+    for word in words:
+        print(word, model[word])
 
 def print_most_similar(words):
     '''
@@ -88,3 +109,4 @@ def print_most_similar(words):
     for item in y2:
         print(item[0], item[1])
     print ("-------------")
+
