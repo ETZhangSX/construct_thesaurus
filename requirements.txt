@@ -1,4 +1,4 @@
 jieba==0.39
 PyMySQL==0.9.3
 gensim==3.7.3
-setuptools==40.8.0
+setuptools==65.5.1
